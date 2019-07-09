@@ -54,6 +54,9 @@ export default function Carta(props) {
                 <Typography color="textSecondary" component="p">
                     {props.correo}
                 </Typography>
+                <Typography color="textSecondary" component="p">
+                    Estado: {props.estado}
+                </Typography>
             </CardContent>
 
 

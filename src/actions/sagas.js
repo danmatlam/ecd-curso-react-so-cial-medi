@@ -5,11 +5,12 @@ import {
     SAVE_USUARIO,
     UPDATE_USUARIO
 } from './actionTypes';
-import { getUsuariosSaga, updateUsuarioSaga } from './usuariosSagas'
+import { getUsuariosSaga, updateUsuarioSaga, saveUsuarioSaga } from './usuariosSagas'
 export function* watcherSaga() {
     // USUARIO
     yield takeLatest(GET_USUARIOS, getUsuariosSaga);
     yield takeLatest(UPDATE_USUARIO, updateUsuarioSaga);
+    yield takeLatest(SAVE_USUARIO, saveUsuarioSaga);
 
 
 }

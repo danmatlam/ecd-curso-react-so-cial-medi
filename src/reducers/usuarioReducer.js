@@ -73,6 +73,7 @@ const usuarioReducer = (state = defaultState, action) => {
 
 
 const replaceUsuarios = (usuarios, usuario) => {
+    debugger
     let indiceReemplazar = usuarios.findIndex(item => item._id == usuario._id)
     usuarios[indiceReemplazar] = usuario;
     return usuarios;

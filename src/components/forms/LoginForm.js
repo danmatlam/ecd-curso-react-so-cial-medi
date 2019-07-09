@@ -5,24 +5,32 @@ import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from "axios";
 
 export default function LoginForm(props) {
-
+    const url = 'http://localhost:3001/api/usuarioId';
     const [correo, setCorreo] = useState("");
     const [contrasena, setContrasena] = useState("");
 
     const handleSubmit = e => {
         e.preventDefault();
-        // const data = {
-        //     correo: correo,
-        //     contrasena: contrasena
-        // }
         const data = {
             correo,
             contrasena
         }
-        // AQUI HACEMOS LA LLAMADA A UN WEB SERVICE
-        
+        debugger;
+        axios.post(url, data).then(function (response) {
+            debugger
+            console.log(response);
+        })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+                // always executed
+            });
+
+
     };
 
     const classes = props.classes;
@@ -32,8 +40,8 @@ export default function LoginForm(props) {
         <form
             onSubmit={handleSubmit}
             className={classes.form} noValidate>
-            <h1>{correo ? correo : 'VACIO'}</h1>
-            <h1>{contrasena ? contrasena : 'VACIO'}</h1>
+            {/* <h1>{correo ? correo : 'VACIO'}</h1>
+            <h1>{contrasena ? contrasena : 'VACIO'}</h1> */}
             <TextField
                 variant="outlined"
                 margin="normal"

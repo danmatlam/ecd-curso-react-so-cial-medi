@@ -8,29 +8,31 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function Modal(props) {
     return (
-        <div>
-            <Dialog
-                open
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogActions>
-                    <Button onClick={props.closeModal} color="primary">
-                        <i class="fas fa-times"></i>
-                    </Button>
-                </DialogActions>
-                <DialogContent>
-                    {props.children}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={props.closeModal} color="primary">
-                        Salir
+        <Dialog open={true}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+                {props.titulo}
+            </DialogTitle>
+
+
+            <DialogContent>
+                {props.children}
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={props.closeModal} color="primary">
+                    Salir
                    </Button>
-                    <Button onClick={props.handleForward} color="primary">
-                        {props.forward}
+
+                {
+                    props.hanldeAvanzar &&
+                    <Button onClick={props.hanldeAvanzar} color="primary">
+                        {props.avanzar}
                     </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+                }
+
+            </DialogActions>
+        </Dialog>
     );
 }

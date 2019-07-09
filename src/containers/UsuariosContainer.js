@@ -6,23 +6,22 @@ import { GET_USUARIOS, SAVE_USUARIO, UPDATE_USUARIO } from '../actions/actionTyp
 import Carta from '../components/common/Carta'
 import Modal from '../components/common/Modal';
 import RegistroForm from '../components/forms/RegistroForm';
+import { DialogTitle, DialogContentText } from '@material-ui/core';
 class UsuariosContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
             usuario: {},
             editModal: false,
-            deleteModal: false
+            eliminarModal: false
         }
-
         this.handleSubmit = this.handleSubmit.bind(this);
-
+        this.handleSubmitEliminar = this.handleSubmitEliminar.bind(this);
     }
 
     //CICLO DE VIDA
     componentDidMount = () => {
         this.props.getUsuarios()
-        debugger
     };
 
     //FUNCIONES PROPIAS
@@ -38,20 +37,66 @@ class UsuariosContainer extends Component {
         })
     }
 
+    hanldeEliminarModal(usuario, modalAction) {
+
+        debugger
+        if (modalAction) {
+            this.setState({
+                eliminarModal: true,
+                usuario: usuario,
+            })
+        }
+        else {
+            this.setState({
+                eliminarModal: false,
+                usuario: {},
+            })
+        }
+    }
+
+
+
+    /// TENGO QUE BINDEAR ESTAS FUNCIONES
     handleSubmit(usuario) {
         usuario.estado = 'A';
         this.props.updateUsuario(usuario)
     }
+    handleSubmitEliminar(usuario) {
+        debugger
+        usuario.estado = 'I';
+        this.props.updateUsuario(usuario)
+    }
+
 
 
     render() {
         const { usuariosState } = this.props;
-        const { editModal, deleteModal } = this.state
+        const { editModal, eliminarModal } = this.state
         return (
             <div>
+                <ContactosList>
+                    {
+                        usuariosState.usuarios.length
+                            ? usuariosState.usuarios.map((usuario) =>
+                                <Carta
+                                    onEdit={() => this.openEditarDialog(usuario)}
+                                    onDelete={() => this.hanldeEliminarModal(usuario, true)}
+                                    key={usuario._id}
+                                    _id={usuario._id}
+                                    foto={usuario.foto}
+                                    nombres={usuario.nombres}
+                                    correo={usuario.correo}
+                                    ocupacion={usuario.ocupacion}
+                                    estado={usuario.estado}
+                                />
+                            )
+                            : <h1>NO HAY DATOS</h1>
+                    }
+                </ContactosList>
                 {
                     editModal &&
-                    <Modal closeModal={() => this.closeEditarDialog()}>
+                    <Modal
+                        closeModal={() => this.closeEditarDialog()}>
                         <RegistroForm
                             {...this.state.usuario}
                             handleSubmit={this.handleSubmit}
@@ -60,24 +105,22 @@ class UsuariosContainer extends Component {
                     </Modal>
                 }
 
-                <ContactosList>
-                    {
-                        usuariosState.usuarios.length
-                            ? usuariosState.usuarios.map((usuario) =>
-                                <Carta
-                                    onEdit={() => this.openEditarDialog(usuario)}
-                                    key={usuario._id}
-                                    _id={usuario._id}
-                                    foto={usuario.foto}
-                                    nombres={usuario.nombres}
-                                    correo={usuario.correo}
-                                    ocupacion={usuario.ocupacion}
-                                />
-                            )
-                            : <h1>NO HAY DATOS</h1>
-                    }
-                </ContactosList>
-
+                {
+                    eliminarModal &&
+                    <Modal
+                        titulo='Vas a eliminar a: '
+                        closeModal={() => this.hanldeEliminarModal()}
+                        avanzar='Continuar'
+                        hanldeAvanzar={() => this.handleSubmitEliminar(this.state.usuario)}
+                    >
+                        <DialogContentText>
+                            {this.state.usuario.nombres} ?
+                        </DialogContentText>
+                        <DialogContentText>
+                            {this.state.usuario._id}
+                        </DialogContentText>
+                    </Modal>
+                }
 
             </div>
         )

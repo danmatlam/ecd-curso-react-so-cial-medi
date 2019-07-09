@@ -1,6 +1,6 @@
 import { call, put } from "redux-saga/effects";
 import axios from "axios";
-import { GET_USUARIOS_SUCCESS, GET_USUARIOS_FAIL, UPDATE_USUARIO_FAIL, UPDATE_USUARIO_SUCCESS } from "./actionTypes";
+import { GET_USUARIOS_SUCCESS, GET_USUARIOS_FAIL, UPDATE_USUARIO_FAIL, UPDATE_USUARIO_SUCCESS, SAVE_USUARIO_SUCCESS, SAVE_USUARIO_FAIL } from "./actionTypes";
 const url = 'http://localhost:3001/api/usuarios'
 
 /// CRUD
@@ -42,14 +42,11 @@ export function* getUsuariosSaga() {
 }
 
 
-
 export function* updateUsuarioSaga(action) {
-
-    debugger
     try {
         const res = yield call(updateUsuario, action.usuario);
         const usuario = res.data.usuario;
-        debugger
+
         if (usuario) {
             yield put({ type: UPDATE_USUARIO_SUCCESS, usuario: usuario });
         }
@@ -63,3 +60,31 @@ export function* updateUsuarioSaga(action) {
         });
     }
 }
+
+
+
+
+export function* saveUsuarioSaga(action) {
+    debugger
+    try {
+        const res = yield call(saveusuario, action.usuario);
+        const usuario = res.data.usuario;
+
+        if (usuario) {
+            yield put({ type: SAVE_USUARIO_SUCCESS, usuario: usuario });
+        }
+    }
+    catch (error) {
+        alert('UPS!: ' + error)
+        yield put({
+            type: SAVE_USUARIO_FAIL,
+            error: true,
+            mensaje: 'Error interno del servidor',
+        });
+    }
+}
+
+
+
+
+

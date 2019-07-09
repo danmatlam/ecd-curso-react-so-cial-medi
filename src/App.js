@@ -9,7 +9,6 @@ import HomeContainer from './containers/HomeContainer';
 import PerfilContainer from './containers/PerfilContainer';
 import ContactosContainer from './containers/ContactosContainer';
 import LoginContainer from './containers/LoginContainer';
-import DescubrirContainer from './containers/DescubrirContainer';
 import RegistroContainer from './containers/RegistroContainer';
 
 

@@ -26,13 +26,20 @@ const usuariosReducer = (state = defaultState, action) => {
             fetching: false
         }
 
-
         //PUT 
         case UPDATE_USUARIO: return {
             ...state,
             fetching: true
         };
         case UPDATE_USUARIO_SUCCESS:
+            debugger
+            if (action.usuario.estado === 'I') {
+                return {
+                    ...state,
+                    fetching: false,
+                    usuarios: deleteUsuario(state.usuarios, action.usuario),
+                };
+            }
             return {
                 ...state,
                 fetching: false,
@@ -43,9 +50,6 @@ const usuariosReducer = (state = defaultState, action) => {
             fetching: false,
             error: action.error
         };
-
-
-
         default: return state;
     }
 }
@@ -57,5 +61,12 @@ const replaceUsuarios = (usuarios, usuario) => {
     return usuarios;
 };
 
+
+const deleteUsuario = (usuarios, usuario) => {
+    debugger
+    let indiceReemplazar = usuarios.findIndex(item => item._id == usuario._id)
+    usuarios.splice(indiceReemplazar, 1)
+    return usuarios;
+};
 
 export default usuariosReducer;

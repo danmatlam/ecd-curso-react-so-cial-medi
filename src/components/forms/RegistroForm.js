@@ -119,10 +119,6 @@ export default function RegistroForm(props) {
 
                 </Button>
 
-
-
-
-
             </form>
 
         </div>
